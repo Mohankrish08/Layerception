@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Neural-Network Architect</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+<div class="app">
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo"><span class="icon brain"></span>Neural-Network Architect</div>
+    <div class="header-actions">
+      <button id="themeToggle" class="icon-btn" aria-label="Toggle theme"><span class="icon sun"></span></button>
+      <button id="resetBtn"  class="chip"><span class="icon refresh"></span>Reset</button>
+      <button id="exportBtn" class="chip primary"><span class="icon download"></span>Export</button>
+    </div>
+  </header>
+
+  <div class="workspace">
+
+    <!-- Left sidebar -->
+    <aside class="sidebar">
+      <!-- Upload -->
+      <section class="card">
+        <h2><span class="icon upload"></span>Input</h2>
+
+        <label for="imageInput" class="drop-zone" id="uploadZone">
+          <input type="file" id="imageInput" accept="image/*" hidden>
+          <div id="dropText">
+            <span class="icon cloud-upload"></span>
+            Drop image or browse
+          </div>
+        </label>
+
+        <div class="preview" id="previewWrap" hidden>
+          <img id="previewImg" alt="">
+          <div class="meta"><span id="imgSize">—</span></div>
+        </div>
+
+        <div class="dims">
+          <h3>Input shape</h3>
+          <div class="dim-row">
+            <label>W<input id="inW" type="number" min="1" placeholder="224"></label>
+            <label>H<input id="inH" type="number" min="1" placeholder="224"></label>
+            <label>C<input id="inC" type="number" min="1" placeholder="3"></label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Palette -->
+      <section class="card">
+        <h2><span class="icon layers"></span>Layer palette</h2>
+
+        <details open>
+          <summary>Convolutional</summary>
+          <div class="palette-grid">
+            <div class="tile" draggable="true" data-type="Conv2D">Conv2D</div>
+            <div class="tile" draggable="true" data-type="DepthwiseConv2D">DepthwiseConv2D</div>
+          </div>
+        </details>
+
+        <details>
+          <summary>Pooling</summary>
+          <div class="palette-grid">
+            <div class="tile" draggable="true" data-type="MaxPooling2D">MaxPooling2D</div>
+            <div class="tile" draggable="true" data-type="AveragePooling2D">AveragePooling2D</div>
+          </div>
+        </details>
+
+        <details>
+          <summary>Core</summary>
+          <div class="palette-grid">
+            <div class="tile" draggable="true" data-type="Dense">Dense</div>
+            <div class="tile" draggable="true" data-type="Flatten">Flatten</div>
+            <div class="tile" draggable="true" data-type="Dropout">Dropout</div>
+          </div>
+        </details>
+
+        <details>
+          <summary>Normalization</summary>
+          <div class="palette-grid">
+            <div class="tile" draggable="true" data-type="BatchNormalization">BatchNorm</div>
+          </div>
+        </details>
+      </section>
+    </aside>
+
+    <!-- Central canvas -->
+    <main class="canvas">
+      <div class="canvas-head">
+        <h1>Model architecture</h1>
+        <div class="stats">
+          <span id="layerCount">0 layers</span>
+          <span id="paramCount">0 params</span>
+        </div>
+      </div>
+
+      <div class="flow" id="flow">
+        <div class="empty" id="emptyHint">
+          <span class="icon diagram"></span>
+          <p>Drag layers here</p>
+        </div>
+      </div>
+    </main>
+
+    <!-- Properties panel -->
+    <aside class="props" id="props" hidden>
+      <header>
+        <h2>Layer properties</h2>
+        <button id="closeProps" class="icon-btn" aria-label="Close panel"><span class="icon close"></span></button>
+      </header>
+      <form id="propsForm"></form>
+    </aside>
+
+  </div>
+
+  <!-- Bottom bar -->
+  <footer class="bottom-bar">
+    <div class="buttons">
+      <button id="validateBtn" class="chip"><span class="icon check"></span>Validate</button>
+      <button id="genCodeBtn" class="chip primary"><span class="icon code"></span>Generate code</button>
+      <button id="trainBtn" class="chip success"><span class="icon play"></span>Train</button>
+    </div>
+  </footer>
+
+  <!-- Modal -->
+  <dialog id="modal">
+    <header>
+      <h2 id="modalTitle">Generated Config</h2>
+      <button id="modalClose" class="icon-btn"><span class="icon close"></span></button>
+    </header>
+    <nav class="tabs">
+      <button class="tab active" data-tab="json">JSON</button>
+      <button class="tab" data-tab="keras">Keras</button>
+      <button class="tab" data-tab="tf">TensorFlow</button>
+    </nav>
+    <pre id="modalCode"></pre>
+    <div class="modal-actions">
+      <button id="copyBtn" class="chip"><span class="icon copy"></span>Copy</button>
+      <button id="downloadBtn" class="chip primary"><span class="icon download"></span>Download</button>
+    </div>
+  </dialog>
+
+</div>
+
+<script src="script.js" type="module"></script>
+</body>
+</html>
